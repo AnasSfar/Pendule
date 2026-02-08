@@ -1,52 +1,31 @@
-// fct.js fichier qui contient les fonctions utilisées dans le projet du jeu du pendule
+// fct.js (version web)
 
-const CATEGORIES = ["food", "color", "animal", "sport", "music", "country", "movie", "song", "city", "object", "body", "clothing", "nature", "technology", "transportation", "art", "literature", "history", "science", "space", 'random'];
-const targetLangs = ["fr", "es", "de", "it", "pt", "ru", "zh", "ja", "ar", "hi"];
-import readline from "readline";
+export const CATEGORIES = [
+  "random", "animal", "art", "body", "city", "clothing","color","country","food","history","literature","movie", 
+  "music", "nature","object","science","song","space","sport","technology","transportation"
+];
 
-// création d'une interface readline pour lire les entrées de l'utilisateur dans la console
-function ask(question) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
 
-  return new Promise(resolve => {
-    rl.question(question + "\n> ", answer => {
-      rl.close();          // arrêt immédiat de la saisie
-      resolve(answer.trim());
-    });
-  });
-}
+export const TARGET_LANGS = ["fr","es","de","it","pt","ru","zh","ja","ar","hi"];
 
-// fonction randInt qui retourne un entier aléatoire entre 0 et n-1
-function randInt(n) {
+export function randInt(n) {
   return Math.floor(Math.random() * n);
 }
 
-// fonction getRandomWordAndCategory qui retourne un objet contenant une catégorie aléatoire
-async function getRandomWordAndCategory() {
-  const category = CATEGORIES[randInt(CATEGORIES.length)];
-  return randomcategory;
+export function pickRandom(arr) {
+  return arr[randInt(arr.length)];
 }
 
-// fonction getRandomWord qui retourne un mot aléatoire d'une catégorie donnée que le joueur a choisie
-async function getRandomWord(category) {
+export async function getRandomWord(category) {
   const url = `https://api.datamuse.com/words?ml=${encodeURIComponent(category)}&max=50`;
   const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status}`);
-  }
+  if (!res.ok) throw new Error("Datamuse error");
   const data = await res.json();
-  if (!Array.isArray(data) || data.length === 0) {
-    throw new Error(`No words for category ${category}`);
-  }
-  const word = data[randInt(data.length)].word;
-  return word;
+  if (!data.length) throw new Error("No word found");
+  return pickRandom(data).word;
 }
 
-// fonction translate qui traduit un mot d'une langue source vers une langue cible en utilisant l'API MyMemory
-async function translate(word, lang) {
+export async function translate(word, lang) {
   const res = await fetch("https://translate.cutie.dating/translate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -58,46 +37,7 @@ async function translate(word, lang) {
     })
   });
 
-  if (!res.ok) {
-    const err = await res.text().catch(() => "");
-    throw new Error(`API error: ${res.status} ${err}`);
-  }
-
+  if (!res.ok) throw new Error("Translate error");
   const data = await res.json();
-  const wordlang = data.translatedText;
-  return wordlang;
+  return data.translatedText;
 }
-
-// fonction qui demande au joueur de sélectionner les langues cibles parmi les langues disponibles
-async function selectLangs() {
-  const input = await ask(
-    `Sélectionnez les langues cibles parmi les suivantes (séparées par des virgules) : ${targetLangs.join(", ")}`
-  );
-
-  const selectedLangs = input
-    .split(",")
-    .map(l => l.trim())
-    .filter(l => targetLangs.includes(l));
-
-  return selectedLangs;
-}
-
-// fonction qui demande au joueur de sélectionner une catégorie parmis les catégories
-async function selectCategory() {
-  const inputCat = await ask(
-    'Sélectionnez une catégorie parmi les suivantes :' + {CATEGORIES});
-    const selectedCategory = inputCat
-    .split(",")
-    .map(l => l.trim())
-    .filter(l => targetLangs.includes(l));
-  if (selectCategory === "random") then (selectCategory = getRandomWordAndCategory());
-  return selectedCategory;
-}
-
-// fonction multiple languages qui prend au hasard une langue cible parmi les langues sélectionnées par le joueur
-async function randomlang(word, selectedLangs) {
-  const randomLang = selectedLangs[Math.floor(Math.random() * selectedLangs.length)];
-  return await translate(word, randomLang);
-}
-
-export { ask, randInt, getRandomWordAndCategory, translate, selectLangs, randomlang };

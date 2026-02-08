@@ -1,35 +1,90 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Le jeu de la pendule</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <main class="container">
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pendule</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="noise"></div>
 
-      <section class="card">
-        <h2>Le jeu de la pendule, devinez le mot avant de pondre le pauvre monsieur !</h2>
-          <label>
-            Entrez une lettre : 
-            <input id="title" required placeholder="..."/>
-          </label>
+  <main class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="logo">P</div>
+        <div>
+          <h1>Pendule</h1>
+          <p>Choisis des langues et une catégorie, puis génère un mot.</p>
+        </div>
+      </div>
+    </header>
 
-          <button type="submit">Add</button>
-        </form>
-      </section>
+    <section class="grid">
+      <article class="card glass">
+        <div class="cardHead">
+          <h2>Langues</h2>
+          <div class="pill">Sélection multiple</div>
+        </div>
 
-            <section class="card">
-        <h2>Les lettres déja utilisées : </h2>
-          <label>
-            <input id="title" required placeholder/>
-          </label>
+        <div class="langsActions">
+          <button id="allBtn" type="button" class="btn ghost">Tout cocher</button>
+          <button id="noneBtn" type="button" class="btn ghost">Tout décocher</button>
+        </div>
 
-        </form>
-      </section>
-    </main>
+        <div id="langs" class="langs"></div>
 
-    <script src="monoplayer/mono.js"></script>
-  </body>
+        <div class="hint">
+          Astuce : tu peux en sélectionner plusieurs, une sera tirée au hasard.
+        </div>
+      </article>
+
+      <article class="card glass">
+        <div class="cardHead">
+          <h2>Catégorie</h2>
+          <div class="pill">Ou random</div>
+        </div>
+
+        <div class="field">
+          <label for="category">Catégorie</label>
+          <div class="selectWrap">
+            <select id="category"></select>
+            <span class="chev">▾</span>
+          </div>
+        </div>
+
+        <div class="cta">
+          <button id="play" type="button" class="btn primary">
+            <span class="spark"></span>
+            Commencer
+          </button>
+        </div>
+
+        <p id="error" class="msg error" aria-live="polite"></p>
+        <div id="result" class="result" aria-live="polite"></div>
+      </article>
+    </section>
+
+  </main>
+
+  <script type="module" src="./monoplayer/mono.js"></script>
+
+  <script>
+    // Optionnel: hooks UI pour "Tout cocher / Tout décocher" sans toucher mono.js
+    // Si tu les gères déjà dans mono.js, supprime ce bloc.
+    const allBtn = document.getElementById("allBtn");
+    const noneBtn = document.getElementById("noneBtn");
+    const langs = document.getElementById("langs");
+
+    if (allBtn && noneBtn && langs) {
+      allBtn.addEventListener("click", () => {
+        langs.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+      });
+      noneBtn.addEventListener("click", () => {
+        langs.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+      });
+    }
+  </script>
+</body>
 </html>
