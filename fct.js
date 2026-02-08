@@ -24,28 +24,10 @@ function randInt(n) {
   return Math.floor(Math.random() * n);
 }
 
-// fonction getRandomWordAndCategory qui retourne un objet contenant une catégorie et un mot aléatoire de cette catégorie
+// fonction getRandomWordAndCategory qui retourne un objet contenant une catégorie aléatoire
 async function getRandomWordAndCategory() {
   const category = CATEGORIES[randInt(CATEGORIES.length)];
-
-  const url = `https://api.datamuse.com/words?ml=${encodeURIComponent(category)}&max=50`;
-  const res = await fetch(url);
-
-  if (!res.ok) {
-    throw new Error(`API error: ${res.status}`);
-  }
-
-  const data = await res.json();
-  if (!Array.isArray(data) || data.length === 0) {
-    throw new Error(`No words for category ${category}`);
-  }
-
-  const word = data[randInt(data.length)].word;
-
-  return {
-    category,
-    word
-  };
+  return randomcategory;
 }
 
 // fonction getRandomWord qui retourne un mot aléatoire d'une catégorie donnée que le joueur a choisie
@@ -98,6 +80,18 @@ async function selectLangs() {
     .filter(l => targetLangs.includes(l));
 
   return selectedLangs;
+}
+
+// fonction qui demande au joueur de sélectionner une catégorie parmis les catégories
+async function selectCategory() {
+  const inputCat = await ask(
+    'Sélectionnez une catégorie parmi les suivantes :' + {CATEGORIES});
+    const selectedCategory = inputCat
+    .split(",")
+    .map(l => l.trim())
+    .filter(l => targetLangs.includes(l));
+  if (selectCategory === "random") then (selectCategory = getRandomWordAndCategory());
+  return selectedCategory;
 }
 
 // fonction multiple languages qui prend au hasard une langue cible parmi les langues sélectionnées par le joueur
