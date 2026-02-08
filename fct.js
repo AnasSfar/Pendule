@@ -1,6 +1,6 @@
 // fct.js fichier qui contient les fonctions utilisées dans le projet du jeu du pendule
 
-const CATEGORIES = ["food", "color", "animal", "sport", "music", "country", "movie", "song", "city", "object", "body", "clothing", "nature", "technology", "transportation", "art", "literature", "history", "science", "space"];
+const CATEGORIES = ["food", "color", "animal", "sport", "music", "country", "movie", "song", "city", "object", "body", "clothing", "nature", "technology", "transportation", "art", "literature", "history", "science", "space", 'random'];
 const targetLangs = ["fr", "es", "de", "it", "pt", "ru", "zh", "ja", "ar", "hi"];
 import readline from "readline";
 
@@ -47,6 +47,22 @@ async function getRandomWordAndCategory() {
     word
   };
 }
+
+// fonction getRandomWord qui retourne un mot aléatoire d'une catégorie donnée que le joueur a choisie
+async function getRandomWord(category) {
+  const url = `https://api.datamuse.com/words?ml=${encodeURIComponent(category)}&max=50`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status}`);
+  }
+  const data = await res.json();
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error(`No words for category ${category}`);
+  }
+  const word = data[randInt(data.length)].word;
+  return word;
+}
+
 // fonction translate qui traduit un mot d'une langue source vers une langue cible en utilisant l'API MyMemory
 async function translate(word, lang) {
   const res = await fetch("https://translate.cutie.dating/translate", {
