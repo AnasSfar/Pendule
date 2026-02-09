@@ -21,31 +21,28 @@
       </div>
     </header>
 
-    <section class="grid">
-  <!-- GAUCHE: Langues -->
+    <!-- ... haut inchangé ... -->
+
+<section class="grid">
+  <!-- carte langues (inchangée) -->
   <article class="card glass">
     <div class="cardHead">
       <h2>Langues</h2>
       <div class="pill">Sélection multiple</div>
     </div>
-
     <div class="langsActions">
       <button id="allBtn" type="button" class="btn ghost">Tout cocher</button>
       <button id="noneBtn" type="button" class="btn ghost">Tout décocher</button>
     </div>
-
     <div id="langs" class="langs"></div>
-
-    <div class="hint">
-      Astuce : tu peux en sélectionner plusieurs, une sera tirée au hasard.
-    </div>
+    <div class="hint">Astuce : une langue sera tirée au hasard.</div>
   </article>
 
-  <!-- DROITE: Catégorie + Lettres utilisées + Mot -->
+  <!-- carte droite: setup + pendu -->
   <article class="card glass">
     <div class="cardHead">
-      <h2>Catégorie</h2>
-      <div class="pill">Ou random</div>
+      <h2>Partie</h2>
+      <div class="pill">Pendu</div>
     </div>
 
     <div class="field">
@@ -63,19 +60,24 @@
       </button>
     </div>
 
-    <!-- Mot à deviner -->
+    <!-- Mot -->
     <div class="wordCard">
-      <div class="wordLabel">Mot</div>
+      <div class="wordLabel">Mot à deviner</div>
       <div id="wordSlots" class="wordSlots">—</div>
+    </div>
+
+    <!-- Saisie -->
+    <div class="guessRow">
+      <input id="guessInput" class="guessInput" maxlength="1" placeholder="Lettre" />
+      <button id="guessBtn" type="button" class="btn">Valider</button>
     </div>
 
     <!-- Lettres utilisées -->
     <div class="usedCard">
       <div class="usedHead">
         <div class="usedTitle">Lettres utilisées</div>
-        <div class="usedHint">Vert = correct, Rouge = absent</div>
+        <div class="usedHint">Vert = dans le mot • Rouge = absent</div>
       </div>
-
       <div class="usedCols">
         <div>
           <div class="usedSub ok">Justes</div>
@@ -88,11 +90,11 @@
       </div>
     </div>
 
-    <p id="error" class="msg error" aria-live="polite"></p>
-    <div id="result" class="result" aria-live="polite"></div>
+    <p id="error" class="msg error"></p>
+    <div id="result" class="result"></div>
   </article>
 
-  <!-- BAS: Pendule (pleine largeur) -->
+  <!-- bas pleine largeur: pendule -->
   <article class="card glass penduleCard">
     <div class="cardHead">
       <h2>Pendule</h2>
@@ -108,13 +110,11 @@
       <div class="penduleInfo">
         <div class="penduleLabel">Langue</div>
         <div id="penduleLang" class="penduleLang">—</div>
-        <div class="penduleSmall">Le pendule indique la langue de la manche.</div>
+        <div class="penduleSmall">La langue de la partie (tirée au hasard).</div>
       </div>
     </div>
   </article>
 </section>
-
-
   </main>
 
   <script type="module" src="./monoplayer/mono.js"></script>
