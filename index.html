@@ -22,41 +22,98 @@
     </header>
 
     <section class="grid">
-      <article class="card glass">
-        <div class="cardHead">
-          <h2>Langues</h2>
-          <div class="pill">Sélection multiple</div>
+  <!-- GAUCHE: Langues -->
+  <article class="card glass">
+    <div class="cardHead">
+      <h2>Langues</h2>
+      <div class="pill">Sélection multiple</div>
+    </div>
+
+    <div class="langsActions">
+      <button id="allBtn" type="button" class="btn ghost">Tout cocher</button>
+      <button id="noneBtn" type="button" class="btn ghost">Tout décocher</button>
+    </div>
+
+    <div id="langs" class="langs"></div>
+
+    <div class="hint">
+      Astuce : tu peux en sélectionner plusieurs, une sera tirée au hasard.
+    </div>
+  </article>
+
+  <!-- DROITE: Catégorie + Lettres utilisées + Mot -->
+  <article class="card glass">
+    <div class="cardHead">
+      <h2>Catégorie</h2>
+      <div class="pill">Ou random</div>
+    </div>
+
+    <div class="field">
+      <label for="category">Catégorie</label>
+      <div class="selectWrap">
+        <select id="category"></select>
+        <span class="chev">▾</span>
+      </div>
+    </div>
+
+    <div class="cta">
+      <button id="play" type="button" class="btn primary">
+        <span class="spark"></span>
+        Commencer
+      </button>
+    </div>
+
+    <!-- Mot à deviner -->
+    <div class="wordCard">
+      <div class="wordLabel">Mot</div>
+      <div id="wordSlots" class="wordSlots">—</div>
+    </div>
+
+    <!-- Lettres utilisées -->
+    <div class="usedCard">
+      <div class="usedHead">
+        <div class="usedTitle">Lettres utilisées</div>
+        <div class="usedHint">Vert = correct, Rouge = absent</div>
+      </div>
+
+      <div class="usedCols">
+        <div>
+          <div class="usedSub ok">Justes</div>
+          <div id="usedGood" class="usedList"></div>
         </div>
-
-        <div class="langsActions">
-          <button id="allBtn" type="button" class="btn ghost">Tout cocher</button>
-          <button id="noneBtn" type="button" class="btn ghost">Tout décocher</button>
+        <div>
+          <div class="usedSub bad">Fausses</div>
+          <div id="usedBad" class="usedList"></div>
         </div>
+      </div>
+    </div>
 
-        <div id="langs" class="langs"></div>
-      </article>
+    <p id="error" class="msg error" aria-live="polite"></p>
+    <div id="result" class="result" aria-live="polite"></div>
+  </article>
 
-      <article class="card glass">
-        <div class="cardHead">
-          <h2>Catégorie</h2>
-        </div>
+  <!-- BAS: Pendule (pleine largeur) -->
+  <article class="card glass penduleCard">
+    <div class="cardHead">
+      <h2>Pendule</h2>
+      <div class="pill">Langue actuelle</div>
+    </div>
 
-        <div class="field">
-          <label for="category">Catégorie</label>
-          <div class="selectWrap">
-            <select id="category"></select>
-            <span class="chev">▾</span>
-          </div>
-        </div>
+    <div class="penduleRow">
+      <div class="penduleDial">
+        <div class="penduleNeedle" id="penduleNeedle"></div>
+        <div class="penduleCenter"></div>
+      </div>
 
-        <div class="cta">
-          <button id="play" type="button" class="btn primary">
-            <span class="spark"></span>
-            Commencer
-          </button>
-        </div>
+      <div class="penduleInfo">
+        <div class="penduleLabel">Langue</div>
+        <div id="penduleLang" class="penduleLang">—</div>
+        <div class="penduleSmall">Le pendule indique la langue de la manche.</div>
+      </div>
+    </div>
+  </article>
+</section>
 
-    </section>
 
   </main>
 
