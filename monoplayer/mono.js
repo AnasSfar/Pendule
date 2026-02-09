@@ -78,3 +78,10 @@ playBtn.onclick = async () => {
     errorP.textContent = e.message;
   }
 };
+
+// fonction qui demande au joueur de saisir une lettre
+
+async function Letter() {
+  const letter = await ask("Tapez une lettre")
+  return letter;
+}
